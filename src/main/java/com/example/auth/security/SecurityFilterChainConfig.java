@@ -1,5 +1,6 @@
 package com.example.auth.security;
 
+import com.example.auth.handler.RedirectAccessDeniedHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,14 +15,14 @@ import static org.springframework.security.web.header.writers.ClearSiteDataHeade
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityFilterChainConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
          return http
-             .csrf(csrf -> csrf.ignoringRequestMatchers("/otp/resend", "/ws/**"))
+             .csrf(csrf -> csrf.ignoringRequestMatchers("/otp/resend"))
              .authorizeHttpRequests( authorise -> authorise
-                .requestMatchers("/login", "/loginForm", "/otp/verify", "/otp/resend", "/ws/**",
+                .requestMatchers("/login", "/loginForm", "/otp/verify", "/otp/resend",
                                 "/oauth2/**", "/css/**", "/js/**").permitAll() // allow unauthenticated access to login form, websocket and related endpoints
                 .anyRequest().authenticated())
             .formLogin(form -> form
