@@ -28,7 +28,7 @@ This project demonstrates a secure authentication system built with **Spring Boo
 
 - Allows users to request a new OTP.
 - Prevents abuse via:
-    - Rate limiting (e.g., cooldown between requests)
+    - Rate limiting (e.g., cooldown between requests, especially for resending otp)
     - Maximum retry attempts
 - Automatically invalidates previously issued OTPs.
 
@@ -86,12 +86,15 @@ This project demonstrates a secure authentication system built with **Spring Boo
 ## 🔐 Security Considerations
 
 - OTP expiration stored in redis cache (3 minutes)
-- Session expiry (10-mins)
-- Detects fetch/AJAX script requests
+- Session expiry/timeouts (10-mins)
+- Distributed session management
+- Deny fetch/AJAX web-based script requests
 - CSRF protection enabled
 - Cookies (http-only, secure, same-site)
 - OAuth2 SSO provider
-- Detects if server is offline via heartbeats
+- Detects if server is offline via heartbeats with auto logout
+- Rate-limiting on endpoints
+- Maximum retries on login attempts
 
 ---
 
@@ -111,7 +114,7 @@ This project demonstrates a secure authentication system built with **Spring Boo
 
 ---
 
-### OAuth2 Login
+### OAuth2 SSO Login
 
 | Endpoint                          | Description                |
 |----------------------------------|----------------------------|

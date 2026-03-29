@@ -366,18 +366,6 @@
             </div>
         </div>
 
-        <!-- Resend (hidden until timer expires — shown by JS) -->
-        <div class="mb-4" id="resend-wrapper" style="display:none;">
-            <button type="button" class="resend-btn" onclick="handleResend()">
-                resend code →
-            </button>
-        </div>
-
-        <!-- Resend success flash (JS-driven) -->
-        <p id="resend-flash" class="resend-ok mb-4" style="display:none;">
-            ✓ New code sent.
-        </p>
-
         <button type="submit" class="btn-verify" id="submit-btn" disabled>
             <span class="spinner" aria-hidden="true"></span>
             <span class="btn-text">Verify</span>
@@ -535,9 +523,8 @@
       })
       .then(r => { if (r.ok || r.redirected) console.log('Resend code submitted') })
       .catch(() => {
-        const f = document.createElement('form');
-        f.method = 'POST'; f.action = '/otp/resend';
-        document.body.appendChild(f); f.submit();
+        console.log('Error resending code, redirecting to login')
+        window.location.href = '/login?logout';
       });
     }
 

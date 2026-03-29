@@ -1,5 +1,6 @@
 package com.example.auth.controller;
 
+import com.example.auth.custom.RateLimit;
 import com.example.auth.model.LoginForm;
 import com.example.auth.model.OtpForm;
 import com.example.auth.service.EmailService;
@@ -156,7 +157,8 @@ public class LoginController {
     }
 
 
-    /* ── POST /otp/resend ── regenerate and resend OTP ── */
+    /* /otp/resend - regenerate and resend OTP */
+    @RateLimit(limit = 1, timeWindowSeconds = 100)
     @PostMapping("/otp/resend")
     public String resendOtp(HttpSession session, Model model) {
 
