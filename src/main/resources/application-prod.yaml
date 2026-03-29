@@ -1,0 +1,88 @@
+spring:
+  application:
+    name: auth
+
+  # --- Redis Configuration ---
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: myredispassword # Uncomment if your Redis has a password
+      ## Redis connection pool
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  # Postgres DB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/oauth_db
+    username: myuser
+    password: mypassword
+    driver-class-name: org.postgresql.Driver
+
+    jpa:
+      hibernate:
+        # 'update' adds new columns/tables without deleting data.
+        # Use 'create-drop' for testing if you want a fresh DB every time.
+        ddl-auto: update
+
+      # Shows the actual SQL queries in the logs (great for debugging)
+      show-sql: true
+
+      properties:
+        hibernate:
+          # Helps Hibernate optimize SQL for PostgreSQL specifically
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+
+
+  # Google SSO auth provider configs
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:}
+            client-secret: ${GOOGLE_CLIENT_SECRET:}
+            scope:
+              - profile
+              - email
+
+  # Persist sessions across restarts using JDBC (optional but recommended)
+  session:
+    store-type: redis
+    redis:
+      namespace: spring:session
+
+# Java template engine
+gg:
+  jte:
+    developmentMode: true
+
+  # For Java mail sender configs
+mail:
+  host: "smtp.gmail.com"
+  port: 587
+  username: ${GMAIL_USERNAME:}
+  password: ${GMAIL_16_CHARACTERS_APP_PASSWORD:}
+
+
+# Server-side session TTL — set slightly longer than frontend idle (3 min)
+# so the frontend prompt always fires before the server expires the session
+# Cookie settings — HttpOnly + Secure + SameSite=Lax
+server:
+  servlet:
+    session:
+      timeout: 210s
+    cookie:
+      http-only: true
+      secure: true
+      same-site: lax
+      name: JSESSIONID
+
+
+app:
+  geocoding-base-url: "http://ip-api.com"
+  geocoding-uri: "/json/%s?fields=status,message,country,city,lat,lon" # External geo api to get ip-location

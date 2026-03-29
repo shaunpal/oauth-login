@@ -1,0 +1,3 @@
+spring:
+  profiles:
+    active: prod # toggle between 'dev' (in-memory session management) or 'prod' (redis session management)
