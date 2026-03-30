@@ -3,7 +3,7 @@ package com.example.auth.service;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Service
 public class RedisRateLimiter {
@@ -18,9 +18,9 @@ public class RedisRateLimiter {
         Long requestCount = stringRedisTemplate.opsForValue().increment(key);
 
         if (requestCount == 1) {
-            stringRedisTemplate.expire(key, timeWindowSeconds, TimeUnit.SECONDS);
+            stringRedisTemplate.expire(key, Duration.ofSeconds(timeWindowSeconds));
         }
         // Allow up to limit
-        return requestCount == limit;
+        return requestCount <= limit;
     }
 }

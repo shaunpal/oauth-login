@@ -158,7 +158,7 @@ public class LoginController {
 
 
     /* /otp/resend - regenerate and resend OTP */
-    @RateLimit(limit = 1, timeWindowSeconds = 100)
+    @RateLimit(limit = 10, timeWindowSeconds = 60)
     @PostMapping("/otp/resend")
     public String resendOtp(HttpSession session, Model model) {
 
