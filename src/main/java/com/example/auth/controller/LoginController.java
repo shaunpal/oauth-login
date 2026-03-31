@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Controller
@@ -91,6 +93,11 @@ public class LoginController {
 
         log.debug("GET /otp/verify for session {} — attributes: {}", session.getId(), Collections.list(session.getAttributeNames()));
 
+        if (Objects.nonNull(session.getAttribute("isEmailVerified")) && session.getAttribute("isEmailVerified").equals(true)) {
+            throw new AccessDeniedException("You are not allowed to perform this action again");
+        }
+
+        session.setAttribute("isEmailVerified", false);
         String email = (String) session.getAttribute("pendingEmail");
 
         // Guard: if someone lands here without going through login, send them back
@@ -101,6 +108,7 @@ public class LoginController {
 
         model.addAttribute("email",    email);
         model.addAttribute("otpForm",  new OtpForm(null, null, null, null, null, null));
+        session.setAttribute("isEmailVerified", true);
         return "pages/otp-verification";
     }
 
