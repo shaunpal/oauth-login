@@ -48,12 +48,13 @@ This project demonstrates a secure authentication system built with **Spring Boo
 
 - **Java 17+**
 - **Spring Boot**
+- **Java Template Engine (jte)**
 - **Spring Security**
-- **Spring Authorization Server / OAuth2 Client**
+- **Spring OAuth2 Client**
 - **Gmail integration**
 - **Java Mail Sender (for OTP delivery)**
 - **Redis (session management)**
-- **StompJS - Websocket (for app heartbeat)**
+- **StompJS Websocket (for app heartbeat)**
 - **External libraries (for parsing device info)**
 
 ---
