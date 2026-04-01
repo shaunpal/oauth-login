@@ -1,15 +1,15 @@
-# 🔐 IAM Login + SSO OAuth Provider (Spring Boot Security)
+# 🔐 Email Login + SSO OAuth2 Provider (Spring Boot Security)
 
 This project demonstrates a secure authentication system built with **Spring Boot Security**, supporting both:
 
-- **IAM-based login (OTP via email)**
+- **Email-based login (OTP via email)**
 - **SSO login using OAuth providers**
 
 ---
 
 ## 🚀 Features
 
-### 🔑 IAM Login (Email + OTP)
+### 🔑 Email Login (Email + OTP)
 
 - **Email-based login**
     - Users enter their email to initiate authentication.
@@ -61,7 +61,7 @@ This project demonstrates a secure authentication system built with **Spring Boo
 
 ## 🔄 Authentication Flow
 
-### IAM Login Flow
+### Email Login Flow
 
 1. User enters email.
 2. System generates OTP and sends via email.
@@ -99,9 +99,7 @@ This project demonstrates a secure authentication system built with **Spring Boo
 
 ---
 
-## 📦 API Endpoints (Sample)
-
-### IAM Authentication
+## 📦 API Endpoints
 
 | Method | Endpoint       | Description                        |
 |--------|----------------|------------------------------------|
@@ -117,7 +115,7 @@ This project demonstrates a secure authentication system built with **Spring Boo
 
 ### OAuth2 SSO Login
 
-| Endpoint                          | Description                |
+| Endpoint                         | Description                |
 |----------------------------------|----------------------------|
 | /oauth2/authorization/{provider} | Redirect to OAuth provider |
 | /login/oauth2/code/*             | OAuth callback endpoint    |
@@ -166,6 +164,6 @@ spring:
 
 - Multi-factor authentication (MFA)
 - SMS-based OTP support
-- Admin dashboard for user/session management
+- IAM Dashboard to set policies and manage access to resource page
 - Refresh token support for OAuth/JWT
-- Account lockout after failed attempts
+- Account lockout after number of failed attempts
